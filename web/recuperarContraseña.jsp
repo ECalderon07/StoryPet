@@ -12,7 +12,7 @@
         <title>StoryPet</title>
     </head>
     <body>
-        <form action="RecuperarClave" method="post">
+        <form action="ContraladorRecuperar" method="post">
             <label for="male">Correo</label><br>
             <input type="email" name="correo" id="correo" ><br>
             <input type="submit" value="Submit">

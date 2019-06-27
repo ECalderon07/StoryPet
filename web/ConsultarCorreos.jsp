@@ -13,6 +13,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
     </head>
     <style>
         .buscar{
@@ -79,37 +80,31 @@
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="text-center"> Agregar Correo</h4>
+                        <h4 class="text-center"> Enviar Correo</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                        <form class="form-horizontal" action="Mail" method="post">
-                            <div class="form-group">
-                                <label class="control-label col-sm-2" for="">Destinatario:</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="Destinatario" id="Destinatario" placeholder="Enter email">
+                        <form method="POST" action="EmailEnvio">
+                            <div class="modal-body mx-3">
+                                <div class="md-form mb-5">
+                                    <label data-error="wrong" data-success="right" for="orangeForm-name">Destinatario</label>
+                                    <input type="email" id="" class="form-control validate" name="destinatario" required>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-2" for="">Asunto:</label>
-                                <div class="col-sm-10"> 
-                                    <input type="text" class="form-control" name="Asunto" id="Asunto" placeholder="Enter password">
+                                <div class="md-form mb-5">
+                                    <label data-error="wrong" data-success="right" for="orangeForm-name">Asunto</label>
+                                    <input type="text" id="" class="form-control validate" name="asunto" required>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-2" for="">Mensaje:</label>
-                                <div class="col-sm-10">
-                                    <textarea rows="4" cols="50" name="Mensaje" id="Mensaje" style="width:100%">
-                        
-                                    </textarea>
 
+                                <div class="md-form mb-4">
+                                    <label data-error="wrong" data-success="right" for="orangeForm-name">Mensaje</label>
+                                    <input type="text" id="" class="form-control validate" name="mensaje" required>
                                 </div>
+
                             </div>
-                            <div class="form-group"> 
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="submit" class="btn btn-default">Submit</button>
-                                    <span class="message">${message}</span>
-                                </div>
+
+                            <div class="modal-footer d-flex justify-content-center">
+                                <button type="submit" class="btn btn-primary">Enviar</button>
+                                <span class="message">${message}</span>
                             </div>
                         </form>
                     </div>
@@ -123,4 +118,12 @@
     </body>
     <script src="js/validacion.js"></script>
     <script src="js/jquery-3.3.1.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var f = new Date();
+            var fecha = f.getFullYear() + "/" + (f.getMonth() + 1) + "/" + f.getDate() + "/" + f.getHours() + "/" + f.getMinutes() + "/" + f.getSeconds();
+            document.getElementById("inFecha").value = fecha;
+        });
+    </script>
 </html>
