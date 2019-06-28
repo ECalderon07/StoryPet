@@ -202,7 +202,9 @@ public class UsuarioDAO extends Conexion implements CRUD_USUARIO {
     public boolean ActualizarContraseña(String Correo, String Contraseña) {
         boolean Operacion = false;
         try {
-            puente.executeUpdate("UPDATE usuarios SET Contraseña='" + Contraseña + "' WHERE Correo='" + Correo + "';");
+            Conn = conexion.obtenerConexion();
+            puente = Conn.createStatement();
+            puente.executeUpdate("UPDATE usuarios SET Correo='" + Correo + "' where Contraseña='" + Contraseña + "' ; ");
             Operacion = true;
 
         } catch (Exception e) {
@@ -210,6 +212,7 @@ public class UsuarioDAO extends Conexion implements CRUD_USUARIO {
             e.printStackTrace();
         }
         return Operacion;
+
     }
 
     public UsuarioVO autenticarUsuario(UsuarioVO usuarioVo) {

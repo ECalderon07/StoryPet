@@ -12,10 +12,20 @@
         <title>StoryPet</title>
     </head>
     <body>
-        <form action="ContraladorRecuperar" method="post">
-            <label for="male">Correo</label><br>
-            <input type="email" name="correo" id="correo" ><br>
-            <input type="submit" value="Submit">
+        <form method="POST" action="RecuperarPass">
+            <div class="modal-body mx-3">
+                
+                <div class="md-form mb-5">
+                    <label data-error="wrong" data-success="right" for="orangeForm-name">Destinatario</label>
+                    <input type="email" id="" class="form-control validate" name="destinatario" required>
+                </div>
+
+            </div>
+
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary">Enviar</button>
+                <span class="message">${message}</span>
+            </div>
         </form>
     </body>
 </html>

@@ -60,6 +60,24 @@ public class ServidorMail {
             System.out.println("Error" + e);
         }
     }
+    
+        public void envioClave(String Destinatario,String Asunto, String Clave) {
+        datosConexion();
+        try {
+            MimeMessage mensaje = new MimeMessage(session);
+            mensaje.setFrom(new InternetAddress((String) propiedades.getProperty("mail.smtp.mail.sender")));
+            mensaje.addRecipient(Message.RecipientType.TO, new InternetAddress(Destinatario));//destinatario
+            mensaje.setSubject(Asunto);//asunto
+            mensaje.setText(Clave);//correo
+
+            Transport transporte = session.getTransport("smtp");
+            transporte.connect((String) propiedades.getProperty("smtp.mail.user"), password);
+            transporte.sendMessage(mensaje, mensaje.getAllRecipients());
+            transporte.close();
+        } catch (Exception e) {
+            System.out.println("Error" + e);
+        }
+    }
 
     public static void main(String[] args) {
         new ServidorMail();

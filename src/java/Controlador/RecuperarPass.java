@@ -6,10 +6,13 @@
 package Controlador;
 
 import DAO.ServidorMail;
+import DAO.UsuarioDAO;
+import VO.UsuarioVO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.out;
 import java.util.Properties;
+import java.util.Random;
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -32,22 +35,47 @@ public class RecuperarPass extends HttpServlet {
 
     private String Asunto;
     private String Destinatario;
-    private String Mensaje;
+    private String Clave;
 
     ServidorMail sv = new ServidorMail();
+    UsuarioVO usuarioVO = new UsuarioVO();
+    UsuarioDAO usuarioDAO = new UsuarioDAO();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //genera contraseña aleatoria
+
+        Random aleatorio = new Random();
+        String alfa = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String cadena = "";
+        int numero;
+        int forma;
+
+        forma = (int) (aleatorio.nextDouble() * alfa.length() - 1 + 0);
+
+        numero = (int) (aleatorio.nextDouble() * alfa.length() * 999 + 100);
+        cadena = cadena + alfa.charAt(forma) + numero;
+
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        Asunto = request.getParameter("asunto");
+        Asunto = "Recuperar contraseña";
         Destinatario = request.getParameter("destinatario");
-        Mensaje = request.getParameter("mensaje");
+        Clave = cadena;
         try {
             //validaruser
-            sv.envioCorreo(Destinatario, Asunto, Mensaje);
-            request.setAttribute("message", "<script>alert('Correo enviado con exito!')</script>");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            if (usuarioDAO.ValidarUsuario(Destinatario)) {
+//                usuarioVO.setCorreo(Destinatario);
+//                usuarioVO.setContraseña(Clave);
+                if (usuarioDAO.ActualizarContraseña(Destinatario, Clave)) {
+                    sv.envioClave(Destinatario, Asunto, Clave);
+                    request.setAttribute("message", "<script>alert('Correo enviado con exito!')</script>");
+                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                }
+
+            } else {
+                request.setAttribute("message", "<script>alert('El correo no existe en la bd !')</script>");
+            }
+
         } catch (Exception e) {
             throw new ServletException("Error", e);
 
@@ -55,7 +83,7 @@ public class RecuperarPass extends HttpServlet {
     }
 
     public RecuperarPass() {
-        envioCorreo(Asunto, Destinatario, Mensaje);
+        envioClave(Asunto, Destinatario, Clave);
     }
 
     private void datosConexion() {
@@ -72,14 +100,14 @@ public class RecuperarPass extends HttpServlet {
 
     }
 
-    public void envioCorreo(String Asunto, String Destinatario, String Mensaje) {
+    public void envioClave(String Asunto, String Destinatario, String Clave) {
         datosConexion();
         try {
             MimeMessage mensaje = new MimeMessage(session);
             mensaje.setFrom(new InternetAddress((String) propiedades.getProperty("mail.smtp.mail.sender")));
             mensaje.addRecipient(Message.RecipientType.TO, new InternetAddress(Destinatario));//destinatario
             mensaje.setSubject(Asunto);//asunto
-            mensaje.setText(Mensaje);//correo
+            mensaje.setText(Clave);//correo
 
             Transport transporte = session.getTransport("smtp");
             transporte.connect((String) propiedades.getProperty("smtp.mail.user"), password);
