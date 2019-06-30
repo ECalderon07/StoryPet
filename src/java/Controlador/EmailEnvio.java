@@ -6,6 +6,7 @@
 package Controlador;
 
 import DAO.ServidorMail;
+import VO.CorreoVo;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.out;
@@ -35,6 +36,7 @@ public class EmailEnvio extends HttpServlet {
     private String Mensaje;
 
     ServidorMail sv = new ServidorMail();
+    CorreoVo correoVo = new CorreoVo();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -43,11 +45,18 @@ public class EmailEnvio extends HttpServlet {
         Asunto = request.getParameter("asunto");
         Destinatario = request.getParameter("destinatario");
         Mensaje = request.getParameter("mensaje");
+
+        correoVo.setAsunto(Asunto);
+        correoVo.setDestinatario(Destinatario);
+        correoVo.setMensaje(Mensaje);
+
         try {
-            //validaruser
-            sv.envioCorreo(Destinatario, Asunto, Mensaje);
-            request.setAttribute("message", "<script>alert('Correo enviado con exito!')</script>");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            if (sv.AgregarCorreo(correoVo)) {
+                sv.envioCorreo(Destinatario, Asunto, Mensaje);
+                request.setAttribute("message", "<script>alert('Correo enviado con exito!')</script>");
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+            }
+
         } catch (Exception e) {
             throw new ServletException("Error", e);
 
@@ -71,8 +80,8 @@ public class EmailEnvio extends HttpServlet {
         session = Session.getDefaultInstance(propiedades);
 
     }
-    
-        public void envioCorreo(String Asunto, String Destinatario, String Mensaje) {
+
+    public void envioCorreo(String Asunto, String Destinatario, String Mensaje) {
         datosConexion();
         try {
             MimeMessage mensaje = new MimeMessage(session);

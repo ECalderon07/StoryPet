@@ -9,6 +9,11 @@
  */
 package DAO;
 
+import Config.Conexion;
+import VO.CorreoVo;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.Session;
@@ -16,18 +21,19 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-
 public class ServidorMail {
 
     private final Properties propiedades = new Properties();
     private Session session;
     private String password;
 
+    CorreoVo correoVo = new CorreoVo();
 
+    Conexion conexion = new Conexion();
 
-//    public ServidorMail() {
-//        envioCorreo("eicalderon@misena.edu.co","P1", "MPrueba");
-//    }
+    private Connection Conn = null;
+    private Statement puente = null;
+    private ResultSet rs = null;
 
     private void datosConexion() {
         propiedades.put("mail.smtp.host", "smtp.gmail.com");
@@ -43,7 +49,7 @@ public class ServidorMail {
 
     }
 
-    public void envioCorreo(String Destinatario,String Asunto, String Mensaje) {
+    public void envioCorreo(String Destinatario, String Asunto, String Mensaje) {
         datosConexion();
         try {
             MimeMessage mensaje = new MimeMessage(session);
@@ -60,8 +66,8 @@ public class ServidorMail {
             System.out.println("Error" + e);
         }
     }
-    
-        public void envioClave(String Destinatario,String Asunto, String Clave) {
+
+    public void envioClave(String Destinatario, String Asunto, String Clave) {
         datosConexion();
         try {
             MimeMessage mensaje = new MimeMessage(session);
@@ -77,6 +83,22 @@ public class ServidorMail {
         } catch (Exception e) {
             System.out.println("Error" + e);
         }
+    }
+
+    public boolean AgregarCorreo(CorreoVo correoVO) {
+
+        boolean Operacion = false;
+        String Sql = "INSERT INTO correo(Destinatario,Asunto,Mensaje) VALUES ('" + correoVO.getDestinatario() + "','" + correoVO.getAsunto() + "','" + correoVO.getMensaje() + "');";
+        Operacion = true;
+        try {
+            Conn = conexion.obtenerConexion();
+            puente = Conn.prepareStatement(Sql);
+            puente.executeUpdate(Sql);
+
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+        return Operacion;
     }
 
     public static void main(String[] args) {

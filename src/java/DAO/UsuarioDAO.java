@@ -22,13 +22,13 @@ import java.util.logging.Logger;
  */
 public class UsuarioDAO extends Conexion implements CRUD_USUARIO {
 
+    UsuarioVO usuario = new UsuarioVO();
+
     Conexion conexion = new Conexion();
 
     private Connection Conn = null;
     private Statement puente = null;
     private ResultSet rs = null;
-
-    UsuarioVO usuario = new UsuarioVO();
 
     public UsuarioDAO() {
     }
@@ -199,17 +199,18 @@ public class UsuarioDAO extends Conexion implements CRUD_USUARIO {
         return Operacion;
     }
 
-    public boolean ActualizarContraseña(String Correo, String Contraseña) {
+    public boolean ActualizarContraseña(UsuarioVO usuarioVO) {
         boolean Operacion = false;
+        String Sql = "UPDATE usuarios SET Contraseña='" +usuarioVO.getContraseña()  + "' WHERE Correo='" + usuarioVO.getCorreo() + "' ;" ;
+        
+        Operacion = true;
         try {
             Conn = conexion.obtenerConexion();
-            puente = Conn.createStatement();
-            puente.executeUpdate("UPDATE usuarios SET Correo='" + Correo + "' where Contraseña='" + Contraseña + "' ; ");
-            Operacion = true;
+            puente = Conn.prepareStatement(Sql);
+            puente.executeUpdate(Sql);
 
         } catch (Exception e) {
-            //Logger.getLogger(ModeloDao.UsuarioDao.class.getName()).log(Level.SEVERE, null, e);
-            e.printStackTrace();
+            e.getStackTrace();
         }
         return Operacion;
 

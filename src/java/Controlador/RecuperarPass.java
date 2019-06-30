@@ -28,64 +28,63 @@ import javax.servlet.http.HttpServletResponse;
  * @author Edwin
  */
 public class RecuperarPass extends HttpServlet {
-
+    
     private final Properties propiedades = new Properties();
     private Session session;
     private String password;
-
+    
     private String Asunto;
     private String Destinatario;
     private String Clave;
-
+    
     ServidorMail sv = new ServidorMail();
     UsuarioVO usuarioVO = new UsuarioVO();
     UsuarioDAO usuarioDAO = new UsuarioDAO();
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //genera contraseña aleatoria
 
         Random aleatorio = new Random();
-        String alfa = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String alfa = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         String cadena = "";
         int numero;
         int forma;
-
+        
         forma = (int) (aleatorio.nextDouble() * alfa.length() - 1 + 0);
-
+        
         numero = (int) (aleatorio.nextDouble() * alfa.length() * 999 + 100);
         cadena = cadena + alfa.charAt(forma) + numero;
-
+        
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         Asunto = "Recuperar contraseña";
         Destinatario = request.getParameter("destinatario");
         Clave = cadena;
         try {
-            //validaruser
             if (usuarioDAO.ValidarUsuario(Destinatario)) {
-//                usuarioVO.setCorreo(Destinatario);
-//                usuarioVO.setContraseña(Clave);
-                if (usuarioDAO.ActualizarContraseña(Destinatario, Clave)) {
+                usuarioVO.setCorreo(Destinatario);
+                usuarioVO.setContraseña(Clave);
+                if (usuarioDAO.ActualizarContraseña(usuarioVO)) {
                     sv.envioClave(Destinatario, Asunto, Clave);
                     request.setAttribute("message", "<script>alert('Correo enviado con exito!')</script>");
                     request.getRequestDispatcher("index.jsp").forward(request, response);
                 }
-
+                
             } else {
                 request.setAttribute("message", "<script>alert('El correo no existe en la bd !')</script>");
             }
-
+            
         } catch (Exception e) {
             throw new ServletException("Error", e);
-
+            
         }
     }
-
+    
     public RecuperarPass() {
         envioClave(Asunto, Destinatario, Clave);
     }
-
+    
     private void datosConexion() {
         propiedades.put("mail.smtp.host", "smtp.gmail.com");
         propiedades.put("mail.smtp.starls.enable", "true");
@@ -97,9 +96,9 @@ public class RecuperarPass extends HttpServlet {
         propiedades.put("mail.smtp.starttls.enable", "true");//Habilitar el envio del correo
         propiedades.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");//Ejecutar el envio del correo
         session = Session.getDefaultInstance(propiedades);
-
+        
     }
-
+    
     public void envioClave(String Asunto, String Destinatario, String Clave) {
         datosConexion();
         try {
