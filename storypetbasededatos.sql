@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-06-2019 a las 15:58:02
+-- Tiempo de generación: 30-06-2019 a las 02:35:55
 -- Versión del servidor: 10.1.36-MariaDB
 -- Versión de PHP: 7.2.10
 
@@ -33,7 +33,7 @@ CREATE TABLE `correo` (
   `Destinatario` varchar(100) NOT NULL,
   `Asunto` varchar(100) NOT NULL,
   `Mensaje` text NOT NULL,
-  `Fecha` text NOT NULL
+  `Fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `correo` (
 --
 
 INSERT INTO `correo` (`IdCorreo`, `Destinatario`, `Asunto`, `Mensaje`, `Fecha`) VALUES
-(1, 'eicalderon@misena.edu.co', 'Prueba', 'Buenas tardes...', '25/06/2019 14:35:25');
+(2, 'eicalderon@misena.edu.co', 'pruebaSabado', '123', '2019-06-29 23:46:15');
 
 -- --------------------------------------------------------
 
@@ -255,7 +255,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `correo`
 --
 ALTER TABLE `correo`
-  MODIFY `IdCorreo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `IdCorreo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `especies`
