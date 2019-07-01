@@ -108,11 +108,11 @@
                     <div class="modal-body">
                         <form action="Historial" method="POST" class="text-center" id="formRegistrarHistorial" >
                             <label>Fecha</label><br>
-                            <input type="text" id="inFecha" readonly name="fecha" ><br><br>
+                            <input type="text" id="inFecha" readonly name="fecha" style="width:80%"><br><br>
                             <label>Novedad</label><br>
-                            <textarea class="form-control" placeholder="Novedad" name="novedad" ></textarea><br>
+                            <textarea class="" placeholder="Novedad" name="novedad" style="width:80%"></textarea><br>
                             <label>Servicio</label><br>
-                            <select name="servicio">
+                            <select name="servicio" style="width:80%">
                                 <option>Seleccione...</option>
                                 <%
                                     ServiciosVo serviciosVo = new ServiciosVo();
@@ -132,7 +132,7 @@
 
                             <br> 
                             <label>Mascota</label><br>
-                            <select name="mascota">
+                            <select name="mascota" style="width:80%">
                                 <option>Seleccione...</option>
                                 <%
                                     MascotasVO mascotasVo = new MascotasVO();
@@ -149,7 +149,7 @@
                             </select>
                             <br>
                             <label>Usuario</label><br>
-                            <input class="bordes" placeholder="Cedula" type="number" value="<%= cedula %>" name="IdUsuario">
+                            <input class="bordes" placeholder="Cedula" type="number" value="<%= cedula %>" name="IdUsuario" style="width:80%">
                             <br> <br> 
                             <input id="btnRegistrar" class="btn btn-outline-primary" type="submit" name="accion" value="Registrar">
                         </form>

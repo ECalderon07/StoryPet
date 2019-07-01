@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-06-2019 a las 02:35:55
+-- Tiempo de generación: 01-07-2019 a las 21:54:46
 -- Versión del servidor: 10.1.36-MariaDB
 -- Versión de PHP: 7.2.10
 
@@ -41,7 +41,9 @@ CREATE TABLE `correo` (
 --
 
 INSERT INTO `correo` (`IdCorreo`, `Destinatario`, `Asunto`, `Mensaje`, `Fecha`) VALUES
-(2, 'eicalderon@misena.edu.co', 'pruebaSabado', '123', '2019-06-29 23:46:15');
+(2, 'eicalderon@misena.edu.co', 'pruebaSabado', '123', '2019-06-29 23:46:15'),
+(3, 'eicalderon@misena.edu.co', 'pruebaDomingo', '456', '2019-07-01 00:41:17'),
+(4, 'eicalderon@misena.edu.co', 'PruebaLunes', '2do formulario', '2019-07-01 18:38:04');
 
 -- --------------------------------------------------------
 
@@ -84,7 +86,8 @@ CREATE TABLE `historialclinico` (
 
 INSERT INTO `historialclinico` (`IdHistorialClinico`, `Fecha`, `Novedad`, `FKServicio`, `FKMascota`, `FKUsuario`) VALUES
 (1, '2019-06-25', 'Se realizo una consulta a la mascota max', 2, 11, 1019123857),
-(3, '2019-06-25', 'corte de uÃ±as', 1, 11, 1001270449);
+(4, '2019-07-01', 'Consulta sobre sintomas', 2, 9, 1019123857),
+(5, '2019-07-01', 'Corte de pelo', 1, 1, 1019123857);
 
 -- --------------------------------------------------------
 
@@ -161,7 +164,9 @@ CREATE TABLE `servicios` (
 
 INSERT INTO `servicios` (`IdServicio`, `Servicio`) VALUES
 (1, 'Estetico'),
-(2, 'Consulta');
+(2, 'Consulta'),
+(3, 'Control '),
+(4, 'Diagnostico');
 
 -- --------------------------------------------------------
 
@@ -191,7 +196,8 @@ INSERT INTO `usuarios` (`IdUsuario`, `Usuario`, `Contraseña`, `Nombres`, `Apell
 (1001270769, 'Admin Brayan', '85438132', 'Brayan David', 'Zúñiga Arrieta', '3053666564', 'bri@hotmail.com', 'admin', 1),
 (1001270799, 'prueba', '123456', 'prueba', 'prueba', '4252347', 'prueba@gmail.com', 'cliente', 1),
 (1001290766, 'Vet Johan Nico', '123456', 'Johan Nicolas', 'molina escobar', '4252324', 'jhoan@gmail.com', 'veterinario', 0),
-(1019113647, 'ClienteIvan', 'qwerty', 'Ivan', 'Gutierrez', '3103146486', 'eicalderon@misena.edu.co', 'cliente', 1),
+(1019113647, 'ClienteIvan', 'I24204', 'Ivan', 'Gutierrez', '3103146486', 'eicalderon@misena.edu.co', 'cliente', 1),
+(1019113648, 'Cliente Daniel', '123', 'Francisco', 'Cely', '31054564', 'fdcely8@misena.edu.co', 'cliente', 0),
 (1019123857, 'Veterinario Ivan1', '123456789', 'Edwin Ivan', 'Calderon', '1234567', 'ei@ei.com', 'veterinario', 1);
 
 --
@@ -255,7 +261,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `correo`
 --
 ALTER TABLE `correo`
-  MODIFY `IdCorreo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `IdCorreo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `especies`
@@ -267,7 +273,7 @@ ALTER TABLE `especies`
 -- AUTO_INCREMENT de la tabla `historialclinico`
 --
 ALTER TABLE `historialclinico`
-  MODIFY `IdHistorialClinico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `IdHistorialClinico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `mascotas`
@@ -285,7 +291,7 @@ ALTER TABLE `razas`
 -- AUTO_INCREMENT de la tabla `servicios`
 --
 ALTER TABLE `servicios`
-  MODIFY `IdServicio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `IdServicio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas

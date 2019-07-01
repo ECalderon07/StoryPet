@@ -44,8 +44,7 @@ public class MascotasDAO extends Conexion implements CRUD_MASCOTA {
 
     @Override
     public boolean Editar(MascotasVO mascotasVO) {
-        String Sql = "Update mascotas set Nombre='" + mascotasVO.getNombre() + "'  where IdMascota='" + mascotasVO.getIdMascota() + "');";
-        //UPDATE mascotas SET Nombre=[value-2] WHERE `IdMascota`=[value-1]
+        String Sql = "Update mascotas set Nombre='" + mascotasVO.getNombre() + "'  where IdMascota='" + mascotasVO.getIdMascota() + "' ;";
         try {
             Conn = conexion.obtenerConexion();
             puente = Conn.prepareStatement(Sql);
@@ -54,6 +53,23 @@ public class MascotasDAO extends Conexion implements CRUD_MASCOTA {
             e.getStackTrace();
         }
         return false;
+    }
+
+    public boolean EditarMascota(MascotasVO mascotasVO) {
+        boolean Operacion = false;
+        String Sql = "UPDATE mascotas SET Nombre='" + mascotasVO.getNombre()+ "' WHERE IdMascota='" + mascotasVO.getIdMascota()+ "' ;";
+        
+        Operacion = true;
+        try {
+            Conn = conexion.obtenerConexion();
+            puente = Conn.prepareStatement(Sql);
+            puente.executeUpdate(Sql);
+
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+        return Operacion;
+
     }
 
     @Override
